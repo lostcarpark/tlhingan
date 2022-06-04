@@ -3,8 +3,11 @@ import "./App.css";
 import mapping from "./mapping.json";
 
 function App() {
+  const [maxWords, setMaxWords] = useState(100);
   const [words, setWords] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [wordLength, setWordLength] = useState(5);
+
   const fetchData = () => {
     fetch("/klingon.txt")
       .then((r) => r.text())
@@ -28,7 +31,7 @@ function App() {
 
   const transliterate = (word) => {
     return [...word].map((c) => {
-      const found = mapping.find((letter) =>  letter.char === c);
+      const found = mapping.find((letter) => letter.char === c);
       if (found) return found.latin;
       return c;
     });
@@ -39,21 +42,19 @@ function App() {
   }
   const letters = mapping.map((letter) => {
     return (
-      <div key={letter.latin}>
+      <span key={letter.latin} className="letter">
         <span className="pIqaD">{letter.char}</span> <span>{letter.latin}</span>
+      </span>
+    );
+  });
+  const totalWords = words.filter((word) => word.length === wordLength);
+  const wordList = totalWords.slice(0, maxWords).map((word) => {
+    return (
+      <div key={word}>
+        <span className="pIqaD">{word}</span> <span>{transliterate(word)}</span>
       </div>
     );
   });
-  const wordList = words
-    .filter((word) => word.length === 5)
-    .map((word) => {
-      return (
-        <div key={word}>
-          <span className="pIqaD">{word}</span>{" "}
-          <span>{transliterate(word)}</span>
-        </div>
-      );
-    });
   return (
     <div className="App">
       <header className="App-header">
@@ -63,7 +64,26 @@ function App() {
         </h1>
         <h2>Klingon Word Finder</h2>
       </header>
+      <div>
+        <label htmlFor="maxWords">Maximum number of results:</label>
+        <input
+          id="maxWords"
+          type="number"
+          value={maxWords}
+          onChange={(e) => setMaxWords(parseInt(e.target.value))}
+        />
+      </div>
+      <div>
+        <label htmlFor="wordLength">Word length:</label>
+        <input
+          id="wordLength"
+          type="number"
+          value={wordLength}
+          onChange={(e) => setWordLength(parseInt(e.target.value))}
+        />
+      </div>
       <div>{letters}</div>
+      <div>Total words found: {totalWords.length}.</div>
       <div>{wordList}</div>
     </div>
   );
