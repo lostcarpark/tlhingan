@@ -17,11 +17,31 @@ code {
     monospace;
 }
 
+.App {
+  text-align: center;
+}
+
 .pIqaD {
   font-family: pIqaD;
   font-size: 1.5em;
 }
 
 .letter {
-  padding: .5rem;
+  padding: .25rem;
+}
+
+.keyboard .row {
+  display: flex;
+  justify-content: center;
+}
+
+.keyboard .letter {
+  border: 1px solid grey;
+  border-radius: .25rem;
+  margin: .1rem;
+  cursor: pointer;
+}
+
+.focus {
+  background-color: yellow;
 }
