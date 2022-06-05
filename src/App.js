@@ -126,28 +126,18 @@ function App() {
     .filter((word) => word.length === wordLength) // Filter words of specified length.
     .filter((word) => {
       // Filter words with known letters in exact positions.
-      let match = true; // Assume match and try to prove it doesn't.
-      for (const letter in knownLetters)
-        if (
-          knownLetters[letter] &&
-          knownLetters[letter] !== word.charAt(letter)
-        )
-          match = false;
-      return match;
+      return knownLetters.every((letter, position) => {
+        if (typeof letter !== "string" || letter.length === 0) return true; // Only test if known letter specified.
+        return letter === word.charAt(position);
+      });
     })
     .filter((word) => {
       // Filter words that include required letters anywhere.
-      let match = true;
-      for (const letter of includeLetters)
-        if (!word.includes(letter)) match = false;
-      return match;
+      return includeLetters.split("").every((letter) => word.includes(letter));
     })
     .filter((word) => {
       // Filter words that don't contain excluded letters.
-      let match = true;
-      for (const letter of excludeLetters)
-        if (word.includes(letter)) match = false;
-      return match;
+      return excludeLetters.split("").every((letter) => !word.includes(letter));
     })
     .filter((word) => {
       // If "no repeat" selected, filter out any words where the same letter appears more than once.
