@@ -262,7 +262,7 @@ function App() {
       <hr />
       <div>
         <strong>
-          <a href="https://github.com/lostcarpark/tlhingan">tlhingan mu' pu'</a>
+          <a href="https://github.com/lostcarpark/tlhingan">tlhingan mu' tu'</a>
         </strong>{" "}
         developed by James Shields and released under the MIT software licence.
         Word list from Peter Musabi's{" "}
